@@ -1,0 +1,14 @@
+Operador: Boa tarde, aqui é o Rafael, falo em nome da ACME Financeira. A ligação é gravada para a sua segurança.
+Cliente: Boa tarde.
+Operador: Falo com a senhora Patrícia Gomes? Pode confirmar o seu nome completo, por favor?
+Cliente: Patrícia Gomes Ferraz.
+Operador: Obrigado, dona Patrícia. É sobre o empréstimo pessoal que está em atraso desde agosto. O que houve com o pagamento?
+Cliente: Meu marido ficou doente e a gente gastou tudo com remédio.
+Operador: Entendo, sinto muito. Se eu entendi bem, a renda da casa diminuiu este mês por causa do tratamento.
+Cliente: Isso. Não consigo pagar nada agora.
+Operador: Compreendo. Quanto a senhora consegue pagar, mesmo que seja um valor pequeno, a partir do mês que vem?
+Cliente: Agora não dá para prometer nada.
+Operador: Tudo bem. E se a gente agendar um novo contato para o dia 10 do mês que vem, quando a senhora recebe? Aí vejo uma alternativa com entrada menor.
+Cliente: Pode ser, me liga dia 10.
+Operador: Combinado. Anotei aqui para o dia 10, no período da manhã. Obrigado pela atenção, dona Patrícia. Melhoras para o seu marido.
+Cliente: Obrigada.

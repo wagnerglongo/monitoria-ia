@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Monitoria IA">
+  <rect width="32" height="32" rx="7" fill="#3446c4"/>
+  <rect x="7" y="17" width="3.4" height="8" rx="1.2" fill="#fff"/>
+  <rect x="12.6" y="12" width="3.4" height="13" rx="1.2" fill="#fff"/>
+  <rect x="18.2" y="7" width="3.4" height="18" rx="1.2" fill="#fff"/>
+  <circle cx="24.6" cy="9" r="2.4" fill="#8ea0ff"/>
+</svg>

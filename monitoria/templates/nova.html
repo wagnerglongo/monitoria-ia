@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block titulo %}Enviar ligação{% endblock %}
+{% block conteudo %}
+<div class="estreito">
+  <h1>Enviar ligação para avaliação</h1>
+  <p class="suave">O arquivo entra na fila e o worker transcreve e avalia em seguida. Áudio em MP3, WAV, M4A ou OGG, ou a transcrição pronta em TXT (uma fala por linha, no formato <code>Operador: ...</code> / <code>Cliente: ...</code>).</p>
+
+  {% if erro %}<p class="alerta" role="alert">{{ erro }}</p>{% endif %}
+
+  <form method="post" action="/ligacoes" enctype="multipart/form-data" class="cartao formulario">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <label class="campo largo">Arquivo da ligação
+      <input type="file" name="arquivo" accept=".mp3,.wav,.m4a,.ogg,.txt" required>
+    </label>
+    <label class="campo">Operador
+      <input name="operador" maxlength="120" required value="{{ valores.operador or '' }}">
+    </label>
+    <label class="campo">Contrato
+      <input name="contrato" maxlength="40" required value="{{ valores.contrato or '' }}">
+    </label>
+    <label class="campo">Data da ligação
+      <input type="date" name="data_ligacao" required value="{{ valores.data_ligacao or hoje }}">
+    </label>
+    <fieldset class="campo">
+      <legend>Resultado da ligação</legend>
+      <label class="opcao"><input type="radio" name="tipo" value="acordo" {% if valores.tipo != 'sem_acordo' %}checked{% endif %}> Com acordo</label>
+      <label class="opcao"><input type="radio" name="tipo" value="sem_acordo" {% if valores.tipo == 'sem_acordo' %}checked{% endif %}> Sem acordo</label>
+    </fieldset>
+    <label class="campo largo">Observações para a avaliação (opcional)
+      <textarea name="observacoes" rows="3" maxlength="2000" placeholder="Ex.: cliente pediu para retornar depois; ligação transferida.">{{ valores.observacoes or '' }}</textarea>
+    </label>
+    <div class="largo"><button type="submit" class="botao">Enviar para avaliação</button></div>
+  </form>
+</div>
+{% endblock %}

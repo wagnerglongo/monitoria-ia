@@ -1,0 +1,13 @@
+Operadora: Bom dia! Meu nome é Bruna, falo da Central de Cobrança em nome da ACME Financeira. A ligação está sendo gravada para sua segurança.
+Cliente: Bom dia.
+Operadora: Falo com a senhora Sofia Rocha? Para confirmar, pode me dizer os três primeiros números do seu CPF?
+Cliente: Sim, sou eu. 456.
+Operadora: Obrigada, dona Sofia. É sobre o crédito consignado com duas parcelas em aberto. O que aconteceu com esses pagamentos?
+Cliente: Mudei de banco e o débito automático parou.
+Operadora: Entendo, isso acontece bastante na troca de banco. A senhora consegue pagar as duas parcelas de uma vez? Fica R$ 860,00.
+Cliente: Consigo pagar só no dia 20.
+Operadora: Tudo bem, podemos fechar para o dia 20 então.
+Cliente: Pode ser.
+Operadora: Recapitulando: pagamento único de R$ 860,00 com vencimento dia 20. O boleto será enviado para o e-mail final arroba exemplo ponto com, certo?
+Cliente: Certo.
+Operadora: Obrigada pela atenção, dona Sofia. Tenha um bom dia!

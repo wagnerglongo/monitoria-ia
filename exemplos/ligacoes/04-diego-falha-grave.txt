@@ -1,0 +1,9 @@
+Operador: Alô, aqui é o Diego, da cobrança da ACME Financeira.
+Cliente: Pois não.
+Operador: O senhor está devendo o empréstimo faz quatro meses. Vai pagar quando?
+Cliente: Eu já falei com vocês, estou sem dinheiro.
+Operador: Todo mundo fala isso. Se não pagar hoje, vou colocar seu nome na lista e ligar no seu trabalho para falar com o seu chefe.
+Cliente: Vocês não podem fazer isso.
+Operador: Pode ter certeza que o senhor vai ser processado. Isso é falta de vergonha, viu.
+Cliente: Não vou continuar essa conversa.
+Operador: Então tá, depois não reclama.

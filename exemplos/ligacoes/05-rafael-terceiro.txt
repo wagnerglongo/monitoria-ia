@@ -1,0 +1,7 @@
+Operador: Boa tarde, aqui é o Rafael, falo em nome da ACME Financeira. A ligação é gravada para a sua segurança.
+Cliente: Boa tarde, quem fala?
+Operador: Eu gostaria de falar com o senhor Fábio Duarte. É o senhor Fábio?
+Cliente: Não, aqui é a esposa dele. Ele está trabalhando.
+Operador: Entendo. Por favor, avisa pra ele que a dívida do cartão já passou de R$ 5.000,00 e que precisa ser resolvida esta semana.
+Cliente: Nossa, eu não sabia disso.
+Operador: Pois é. Peça para ele retornar no 0800 da ACME, por favor. Obrigado pela atenção.

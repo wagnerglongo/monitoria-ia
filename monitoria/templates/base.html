@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{% block titulo %}Monitoria{% endblock %} · Monitoria IA</title>
+<link rel="stylesheet" href="/static/estilo.css">
+<link rel="icon" href="/static/icone.svg" type="image/svg+xml">
+<script src="/static/app.js" defer></script>
+</head>
+<body>
+<header class="topo">
+  <a class="marca" href="/"><img src="/static/icone.svg" alt="" width="26" height="26">Monitoria IA</a>
+  <nav aria-label="Principal">
+    <a href="/"{% if request.url.path == "/" %} aria-current="page"{% endif %}>Painel</a>
+    <a href="/ligacoes/nova"{% if request.url.path == "/ligacoes/nova" %} aria-current="page"{% endif %}>Enviar ligação</a>
+    <a href="/api/docs">API</a>
+  </nav>
+</header>
+{% if demo %}
+<p class="faixa-demo">Modo demonstração: transcrições de exemplo e avaliação por sinais no texto, sem chamar a IA. Configure <code>IA_PROVEDOR=openai</code> para avaliar áudios de verdade.</p>
+{% endif %}
+<main class="conteudo">
+{% block conteudo %}{% endblock %}
+</main>
+</body>
+</html>

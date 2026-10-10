@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% block titulo %}Ligação #{{ ligacao.id }}{% endblock %}
+{% set nota_classe = "sem" if ligacao.nota is none else ("ruim" if ligacao.falha_grave or ligacao.nota < 60 else ("media" if ligacao.nota < 85 else "boa")) %}
+{% block conteudo %}
+<p class="voltar"><a href="/">Painel</a></p>
+
+<div class="cabecalho">
+  <div>
+    <h1>Ligação #{{ ligacao.id }} · {{ ligacao.operador }}</h1>
+    <p class="suave">Contrato <span class="mono">{{ ligacao.contrato }}</span> · {{ ligacao.data_ligacao.strftime("%d/%m/%Y") }} · {{ "Com acordo" if ligacao.tipo == "acordo" else "Sem acordo" }}{% if ligacao.monitor %} · enviada por {{ ligacao.monitor }}{% endif %}</p>
+  </div>
+  <div class="acoes">
+    {% if ligacao.status.value == "concluida" %}<a class="botao" href="/ligacoes/{{ ligacao.id }}/relatorio.pdf">Baixar PDF para feedback</a>{% endif %}
+    {% if ligacao.status.value in ("concluida", "erro") %}
+    <form method="post" action="/ligacoes/{{ ligacao.id }}/reprocessar">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <button type="submit" class="botao botao-secundario">Avaliar de novo</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+{% if ligacao.status.value in ("pendente", "processando") %}
+  <p class="aviso" data-recarregar="5">{{ "Na fila para avaliação." if ligacao.status.value == "pendente" else "Avaliando agora." }} Esta página atualiza sozinha.</p>
+{% elif ligacao.status.value == "erro" %}
+  <p class="alerta">A avaliação falhou (tentativa {{ ligacao.tentativas }}): {{ ligacao.erro }}{% if ligacao.proxima_tentativa %} O worker tenta de novo automaticamente.{% endif %}</p>
+{% endif %}
+
+{% if ligacao.status.value == "concluida" %}
+<section class="resultado">
+  <div class="nota-grande faixa-{{ nota_classe }}">
+    <span class="numero">{{ ligacao.nota | nota }}</span>
+    <span class="de">de 100</span>
+  </div>
+  <div class="resultado-texto">
+    {% if ligacao.falha_grave %}
+      <p class="alerta">Nota zerada por falha grave. Sem ela, a ligação teria {{ ligacao.nota_sem_falha | nota }}.</p>
+    {% endif %}
+    {% if ligacao.resumo %}<p>{{ ligacao.resumo }}</p>{% endif %}
+    <p class="suave pequeno">Avaliada por {{ ligacao.modelo }} com a rubrica {{ ligacao.rubrica_versao }}. A IA classifica cada critério; a nota é calculada pela rubrica.</p>
+  </div>
+</section>
+{% endif %}
+
+<div class="detalhe-ligacao">
+  {% if ligacao.status.value == "concluida" %}
+  <section class="cartao avaliacao">
+    {% set por_criterio = {} %}
+    {% for c in ligacao.criterios %}{% set _ = por_criterio.update({c.criterio: c}) %}{% endfor %}
+    {% for d in ligacao.disciplinas %}
+      {% set rd = rubrica.disciplinas | selectattr("id", "equalto", d.disciplina) | first %}
+      <div class="disciplina">
+        <h2>{{ d.nome }} <span class="pontos">{% if d.pontos is none %}não se aplica{% else %}{{ d.pontos | nota }} / {{ "%.0f"|format(d.maximo) }}{% endif %}</span></h2>
+        <ul class="criterios">
+        {% for cr in rd.criterios %}
+          {% set n = por_criterio.get(cr.id) %}
+          {% if n %}
+          <li class="criterio resultado-{{ n.resultado }}" id="criterio-{{ cr.id }}">
+            <span class="veredito">{{ resultados[n.resultado] }}</span>
+            <span class="descricao">{{ cr.descricao }}</span>
+            {% if n.evidencia %}
+              {% if n.resultado == "cumpriu" %}
+                <a class="evidencia" href="#" data-criterio="{{ cr.id }}">“{{ n.evidencia }}”</a>
+              {% else %}
+                <span class="evidencia">{{ n.evidencia }}</span>
+              {% endif %}
+            {% endif %}
+          </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+
+    {% set falhas = (ligacao.julgamento or {}).get("falhas_graves", []) | selectattr("ocorreu") | list %}
+    {% if falhas %}
+      <div class="disciplina falhas">
+        <h2>Falhas graves</h2>
+        <ul class="criterios">
+        {% for f in falhas %}
+          {% set rf = rubrica.falhas_graves | selectattr("id", "equalto", f.id) | first %}
+          <li class="criterio resultado-falha">
+            <span class="veredito">Falha grave</span>
+            <span class="descricao">{{ rf.descricao }}</span>
+            <a class="evidencia" href="#" data-criterio="falha:{{ f.id }}">“{{ f.evidencia }}”</a>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% set j = ligacao.julgamento or {} %}
+    {% if j.get("pontos_de_melhoria") %}
+      <div class="disciplina">
+        <h2>Para o feedback</h2>
+        <ul class="lista">{% for item in j["pontos_de_melhoria"] %}<li>{{ item }}</li>{% endfor %}</ul>
+      </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  <section class="cartao transcricao" aria-label="Transcrição">
+    <h2>Transcrição</h2>
+    {% if transcricao %}
+      <ol class="falas">
+      {% for fala in transcricao %}
+        <li class="fala{% if fala.operador %} operador{% endif %}{% if fala.marcas %} marcada{% endif %}{% if fala.falha %} com-falha{% endif %}" data-marcas="{{ fala.marcas | join(' ') }}">
+          {% if fala.falante %}<span class="falante">{{ fala.falante }}</span>{% endif %}
+          <span class="texto">{{ fala.texto }}</span>
+        </li>
+      {% endfor %}
+      </ol>
+    {% else %}
+      <p class="vazio">A transcrição aparece aqui quando o worker processar a ligação.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

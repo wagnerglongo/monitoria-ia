@@ -1,0 +1,8 @@
+[
+  {"arquivo": "01-juliana-acordo.txt", "operador": "Juliana Prado", "contrato": "ACM41022871", "tipo": "acordo", "dias_atras": 1},
+  {"arquivo": "02-rafael-sem-acordo.txt", "operador": "Rafael Tavares", "contrato": "ACM58810243", "tipo": "sem_acordo", "dias_atras": 1},
+  {"arquivo": "03-bruna-acordo.txt", "operador": "Bruna Lemos", "contrato": "ACM30927715", "tipo": "acordo", "dias_atras": 2},
+  {"arquivo": "04-diego-falha-grave.txt", "operador": "Diego Martins", "contrato": "ACM77310452", "tipo": "sem_acordo", "dias_atras": 2},
+  {"arquivo": "05-rafael-terceiro.txt", "operador": "Rafael Tavares", "contrato": "ACM12093384", "tipo": "sem_acordo", "dias_atras": 3},
+  {"arquivo": "06-bruna-acordo-boa.txt", "operador": "Bruna Lemos", "contrato": "ACM66402918", "tipo": "acordo", "dias_atras": 3}
+]

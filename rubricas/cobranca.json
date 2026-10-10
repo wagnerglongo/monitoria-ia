@@ -1,0 +1,136 @@
+{
+  "id": "cobranca",
+  "versao": "2026.10",
+  "nome": "Monitoria de ligações de cobrança",
+  "descricao": "Checklist de qualidade para ligações ativas e receptivas de negociação de dívidas, alinhado ao Código de Defesa do Consumidor (art. 42) e à LGPD.",
+  "disciplinas": [
+    {
+      "id": "abertura",
+      "nome": "Abertura e identificação",
+      "peso": 20,
+      "criterios": [
+        {
+          "id": "saudacao",
+          "descricao": "Cumprimentou e se apresentou com o próprio nome e o nome da empresa.",
+          "peso": 3,
+          "sinais_demo": ["meu nome é", "aqui é (o|a) \\w+", "falo da", "falo em nome"]
+        },
+        {
+          "id": "confirmacao_identidade",
+          "descricao": "Confirmou que falava com o titular (nome completo ou parte do CPF) antes de mencionar a dívida.",
+          "peso": 5,
+          "sinais_demo": ["confirmar (o seu|seu) (nome|cpf)", "primeiros (três|3) (dígitos|números)", "falo com (o|a) senhor", "é (o|a) (senhor|senhora) \\w+\\?"]
+        },
+        {
+          "id": "aviso_gravacao",
+          "descricao": "Informou que a ligação é gravada.",
+          "peso": 2,
+          "sinais_demo": ["(ligação|chamada) (está sendo|é) gravada", "gravada para (sua|a sua) segurança"]
+        }
+      ]
+    },
+    {
+      "id": "comunicacao",
+      "nome": "Comunicação e condução",
+      "peso": 25,
+      "criterios": [
+        {
+          "id": "cordialidade",
+          "descricao": "Manteve tom cordial e respeitoso durante toda a ligação.",
+          "peso": 4,
+          "sinais_demo": ["por favor", "obrigad", "entendo"]
+        },
+        {
+          "id": "escuta_ativa",
+          "descricao": "Ouviu o cliente sem interromper e retomou o que ele disse ao responder.",
+          "peso": 3,
+          "sinais_demo": ["entendo", "compreendo", "se eu entendi", "o senhor (disse|falou)", "a senhora (disse|falou)"]
+        },
+        {
+          "id": "clareza",
+          "descricao": "Explicou valores, datas e condições em linguagem simples, sem jargão.",
+          "peso": 3,
+          "sinais_demo": ["R\\$ ?\\d", "vencimento", "parcelas? de"]
+        }
+      ]
+    },
+    {
+      "id": "negociacao",
+      "nome": "Técnicas de negociação",
+      "peso": 35,
+      "criterios": [
+        {
+          "id": "motivo_atraso",
+          "descricao": "Investigou o motivo do atraso antes de apresentar proposta.",
+          "peso": 3,
+          "sinais_demo": ["o que (aconteceu|houve)", "motivo", "por que (o pagamento|atrasou|ficou)"]
+        },
+        {
+          "id": "proposta_adequada",
+          "descricao": "Apresentou proposta compatível com a capacidade de pagamento informada pelo cliente.",
+          "peso": 4,
+          "sinais_demo": ["quanto (o senhor|a senhora|você) (consegue|pode)", "cabe no (seu )?(bolso|orçamento)", "consegue pagar"]
+        },
+        {
+          "id": "objecoes",
+          "descricao": "Contornou objeções com alternativas (outra data, outro parcelamento) em vez de encerrar.",
+          "peso": 3,
+          "sinais_demo": ["outra opção", "posso (verificar|ver) (uma|outra)", "e se (a gente|nós)", "alternativa"]
+        },
+        {
+          "id": "compromisso",
+          "descricao": "Buscou fechar um compromisso concreto, com valor e data.",
+          "peso": 4,
+          "sinais_demo": ["podemos fechar", "fechado", "confirmo (o|a)"]
+        }
+      ]
+    },
+    {
+      "id": "fechamento",
+      "nome": "Fechamento",
+      "peso": 20,
+      "criterios": [
+        {
+          "id": "recapitulacao",
+          "descricao": "Recapitulou valor, quantidade de parcelas e data do primeiro vencimento.",
+          "peso": 4,
+          "sinais_demo": ["(só )?(para|pra) confirmar", "recapitulando", "então fica"]
+        },
+        {
+          "id": "envio_boleto",
+          "descricao": "Informou como o boleto será enviado e confirmou o canal (WhatsApp, e-mail, SMS).",
+          "peso": 3,
+          "sinais_demo": ["boleto (vai|será) (chegar|enviado)", "mando o boleto", "envio o boleto"]
+        },
+        {
+          "id": "despedida",
+          "descricao": "Encerrou com agradecimento e despedida cordial.",
+          "peso": 2,
+          "sinais_demo": ["tenha um (bom|ótimo)", "obrigad[oa] pela atenção", "até mais"]
+        }
+      ]
+    }
+  ],
+  "falhas_graves": [
+    {
+      "id": "ameaca_constrangimento",
+      "descricao": "Ameaçou, constrangeu ou expôs o cliente ao ridículo (CDC, art. 42).",
+      "sinais_demo": ["vou (mandar|colocar) (o seu nome|seu nome) (na|no)", "vai ser processad", "a polícia", "vergonha", "vou ligar (no seu|pro seu) (trabalho|chefe)"]
+    },
+    {
+      "id": "exposicao_terceiros",
+      "descricao": "Falou da dívida com outra pessoa que não o titular.",
+      "sinais_demo": ["(avisa|fala) (pra|para) (ele|ela) que (a dívida|o débito)", "a senhora é (a esposa|a mãe)[^.]*dívida"]
+    },
+    {
+      "id": "promessa_indevida",
+      "descricao": "Prometeu desconto ou condição que não existe ou não estava autorizada.",
+      "sinais_demo": ["garanto que (limpa|tira) (o|seu) nome (hoje|na hora)", "desconto de 90", "não precisa pagar o resto"]
+    },
+    {
+      "id": "agressividade",
+      "descricao": "Usou linguagem ofensiva ou agressiva.",
+      "sinais_demo": ["caloteir", "irresponsável", "cala a boca"]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+Operadora: Bom dia! Meu nome é Juliana, falo da Central de Cobrança em nome da ACME Financeira. Esta ligação está sendo gravada para sua segurança.
+Cliente: Bom dia.
+Operadora: Falo com o senhor Marcos Vieira? Para sua segurança, pode confirmar os três primeiros dígitos do seu CPF?
+Cliente: Sou eu sim. É 123.
+Operadora: Obrigada, seu Marcos. Estou ligando sobre o contrato do cartão de crédito, que está com três parcelas em aberto. O senhor sabe me dizer o que aconteceu?
+Cliente: Fiquei desempregado em julho, só voltei a trabalhar agora.
+Operadora: Entendo, seu Marcos. Fico feliz que o senhor voltou a trabalhar. Hoje a dívida atualizada está em R$ 4.380,00. Quanto o senhor consegue pagar por mês sem apertar o orçamento?
+Cliente: Uns trezentos, trezentos e cinquenta no máximo.
+Operadora: Compreendo. Eu tenho uma proposta em 12 parcelas de R$ 342,00, com desconto nos juros. Cabe no seu orçamento?
+Cliente: Doze é muito tempo... não tem algo menor?
+Operadora: Posso verificar uma outra opção: em 10 parcelas de R$ 398,00. Mas o senhor falou que trezentos e cinquenta é o máximo, então acho que as 12 de R$ 342,00 ficam mais tranquilas. O que o senhor prefere?
+Cliente: Tá, vamos nas doze então.
+Operadora: Podemos fechar com o primeiro vencimento no dia 15?
+Cliente: Pode ser dia 15.
+Operadora: Só para confirmar: acordo em 12 parcelas de R$ 342,00, a primeira vence dia 15 de novembro, e as próximas sempre no dia 15.
+Cliente: Isso.
+Operadora: O boleto vai chegar no seu WhatsApp ainda hoje. O número com final 4521 é o seu?
+Cliente: É sim.
+Operadora: Perfeito. Obrigada pela atenção, seu Marcos. Tenha um ótimo dia!
+Cliente: Obrigado, tchau.

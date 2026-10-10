@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block titulo %}Painel{% endblock %}
+{% macro faixa(nota, falha=False) -%}
+{%- if nota is none -%}sem{%- elif falha or nota < 60 -%}ruim{%- elif nota < 85 -%}media{%- else -%}boa{%- endif -%}
+{%- endmacro %}
+{% block conteudo %}
+<div class="cabecalho">
+  <div>
+    <h1>Qualidade das ligações</h1>
+    <p class="suave">{{ rubrica.nome }} · rubrica {{ rubrica.versao }}</p>
+  </div>
+  <a class="botao" href="/ligacoes/nova">Enviar ligação</a>
+</div>
+
+<section class="indicadores" aria-label="Indicadores">
+  <div class="indicador">
+    <span class="rotulo">Ligações avaliadas</span>
+    <span class="valor">{{ indicadores.avaliadas }}</span>
+  </div>
+  <div class="indicador">
+    <span class="rotulo">Nota média</span>
+    <span class="valor faixa-{{ faixa(indicadores.nota_media) }}">{{ indicadores.nota_media | nota }}</span>
+  </div>
+  <div class="indicador">
+    <span class="rotulo">Com falha grave</span>
+    <span class="valor{% if indicadores.com_falha_grave %} faixa-ruim{% endif %}">{{ indicadores.com_falha_grave }}</span>
+    <span class="detalhe">{{ "%.1f"|format(indicadores.taxa_falha_grave) | replace(".", ",") }}% das avaliadas</span>
+  </div>
+  <div class="indicador">
+    <span class="rotulo">Na fila</span>
+    <span class="valor">{{ indicadores.na_fila }}</span>
+    {% if indicadores.com_erro %}<span class="detalhe faixa-ruim">{{ indicadores.com_erro }} com erro</span>{% endif %}
+  </div>
+</section>
+
+<div class="duas-colunas">
+  <section class="cartao">
+    <h2>Operadores</h2>
+    {% if ranking %}
+    <table class="tabela">
+      <thead><tr><th>Operador</th><th class="num">Ligações</th><th>Nota média</th><th class="num">Falhas graves</th><th>Começar o feedback por</th></tr></thead>
+      <tbody>
+      {% for linha in ranking %}
+        <tr>
+          <td><a href="/?operador={{ linha.operador | urlencode }}">{{ linha.operador }}</a></td>
+          <td class="num">{{ linha.ligacoes }}</td>
+          <td><span class="medidor"><span class="barra faixa-fundo-{{ faixa(linha.nota_media) }}" data-largura="{{ linha.nota_media }}"></span></span> <strong class="num">{{ linha.nota_media | nota }}</strong></td>
+          <td class="num{% if linha.falhas_graves %} faixa-ruim{% endif %}">{{ linha.falhas_graves }}</td>
+          <td class="suave">{{ linha.pior_disciplina or "—" }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p class="vazio">Nenhuma ligação avaliada ainda. <a href="/ligacoes/nova">Envie a primeira</a>.</p>
+    {% endif %}
+  </section>
+
+  <section class="cartao">
+    <h2>Aproveitamento por disciplina</h2>
+    <p class="suave pequeno">Da pior para a melhor, em todas as ligações avaliadas.</p>
+    {% for nome, valor in disciplinas %}
+      <div class="disciplina-linha">
+        <span>{{ nome }}</span>
+        <span class="medidor largo"><span class="barra faixa-fundo-{{ faixa(valor) }}" data-largura="{{ valor }}"></span></span>
+        <strong class="num">{{ "%.0f"|format(valor) }}%</strong>
+      </div>
+    {% else %}
+      <p class="vazio">Sem dados ainda.</p>
+    {% endfor %}
+  </section>
+</div>
+
+<section class="cartao">
+  <div class="cabecalho-cartao">
+    <h2>{% if filtro_operador %}Ligações de {{ filtro_operador }}{% else %}Últimas ligações{% endif %}</h2>
+    {% if filtro_operador %}<a href="/">Ver todas</a>{% endif %}
+  </div>
+  <table class="tabela">
+    <thead><tr><th>#</th><th>Data</th><th>Operador</th><th>Contrato</th><th>Tipo</th><th>Situação</th><th class="num">Nota</th></tr></thead>
+    <tbody>
+    {% for l in ligacoes %}
+      <tr class="clicavel" data-href="/ligacoes/{{ l.id }}">
+        <td><a href="/ligacoes/{{ l.id }}">{{ l.id }}</a></td>
+        <td>{{ l.data_ligacao.strftime("%d/%m/%Y") }}</td>
+        <td>{{ l.operador }}</td>
+        <td class="mono">{{ l.contrato }}</td>
+        <td>{{ "Com acordo" if l.tipo == "acordo" else "Sem acordo" }}</td>
+        <td><span class="selo selo-{{ l.status.value }}">{{ {"pendente": "Na fila", "processando": "Avaliando", "concluida": "Avaliada", "erro": "Erro"}[l.status.value] }}</span>{% if l.falha_grave %} <span class="selo selo-falha">Falha grave</span>{% endif %}</td>
+        <td class="num"><strong class="faixa-{{ faixa(l.nota, l.falha_grave) }}">{{ l.nota | nota }}</strong></td>
+      </tr>
+    {% else %}
+      <tr><td colspan="7" class="vazio">Nenhuma ligação enviada.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

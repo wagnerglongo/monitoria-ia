@@ -1,0 +1,13 @@
+Operadora: Alô, aqui é a Bruna da ACME Financeira.
+Cliente: Alô.
+Operadora: É sobre o seu cheque especial que está atrasado. O valor hoje está em R$ 2.150,00.
+Cliente: Ah, sei. Eu queria pagar, mas está difícil.
+Operadora: Tem uma condição à vista com desconto, sai R$ 1.290,00.
+Cliente: À vista não dá.
+Operadora: Então tem em 6 parcelas de R$ 315,00.
+Cliente: Seis de trezentos e quinze... acho que dá.
+Operadora: Fechado então. Vou gerar o acordo.
+Cliente: E como eu pago?
+Operadora: Mando o boleto por e-mail.
+Cliente: Tá bom.
+Operadora: Obrigada, até mais.
