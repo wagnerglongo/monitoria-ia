@@ -1,0 +1,50 @@
+x-monitoria: &monitoria
+  build: .
+  environment:
+    DATABASE_URL: "postgresql+psycopg://monitoria:${DB_SENHA:-troque-esta-senha}@db:5432/monitoria"
+    PASTA_ARQUIVOS: /dados/ligacoes
+    IA_PROVEDOR: "${IA_PROVEDOR:-demo}"
+    OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+    OPENAI_MODELO_TRANSCRICAO: "${OPENAI_MODELO_TRANSCRICAO:-whisper-1}"
+    OPENAI_MODELO_AVALIACAO: "${OPENAI_MODELO_AVALIACAO:-gpt-4o-mini}"
+    MONITORIA_USUARIO: "${MONITORIA_USUARIO:-monitor}"
+    MONITORIA_SENHA: "${MONITORIA_SENHA:-}"
+  volumes:
+    - arquivos:/dados
+  depends_on:
+    db:
+      condition: service_healthy
+  restart: unless-stopped
+
+services:
+  web:
+    <<: *monitoria
+    ports:
+      - "8000:8000"
+
+  # Processa a fila. Pode subir mais de um (docker compose up --scale worker=3):
+  # cada ligação é reservada antes de processar.
+  worker:
+    <<: *monitoria
+    command: ["python", "-m", "monitoria", "worker"]
+    healthcheck:
+      disable: true
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: monitoria
+      POSTGRES_USER: monitoria
+      POSTGRES_PASSWORD: "${DB_SENHA:-troque-esta-senha}"
+    volumes:
+      - banco:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U monitoria -d monitoria"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  arquivos:
+  banco:
