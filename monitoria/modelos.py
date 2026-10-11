@@ -117,8 +117,26 @@ def criar_motor(url: str) -> Engine:
             cursor.execute("PRAGMA busy_timeout = 5000")
             cursor.close()
 
-    Base.metadata.create_all(motor)
+    _criar_tabelas(motor)
     return motor
+
+
+def _criar_tabelas(motor: Engine, tentativas: int = 5) -> None:
+    """Cria as tabelas que faltam. Web e worker sobem juntos: se os dois tentarem
+    criar ao mesmo tempo no PostgreSQL, um deles recebe erro de duplicidade e
+    tenta de novo (aí as tabelas já existem)."""
+    import time
+
+    from sqlalchemy.exc import DBAPIError
+
+    for tentativa in range(1, tentativas + 1):
+        try:
+            Base.metadata.create_all(motor)
+            return
+        except DBAPIError:
+            if tentativa == tentativas:
+                raise
+            time.sleep(0.5 * tentativa)
 
 
 def fabrica_sessoes(motor: Engine) -> sessionmaker:

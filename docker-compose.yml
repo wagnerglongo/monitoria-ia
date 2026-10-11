@@ -29,6 +29,11 @@ services:
     command: ["python", "-m", "monitoria", "worker"]
     healthcheck:
       disable: true
+    depends_on:
+      db:
+        condition: service_healthy
+      web:
+        condition: service_healthy
 
   db:
     image: postgres:16-alpine
