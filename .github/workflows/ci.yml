@@ -34,8 +34,13 @@ jobs:
       - name: Exemplos são avaliados e aparecem na API
         run: |
           docker compose exec -T web python -m monitoria demo
-          curl -fsS http://localhost:8000/api/ligacoes > ligacoes.json
-          python3 -c "import json; l=json.load(open('ligacoes.json')); c=[x for x in l if x['status']=='concluida']; print(len(c), 'avaliadas'); assert len(c)==6"
+          # o worker pode ter pegado parte da fila: espera todas ficarem prontas
+          for i in $(seq 1 30); do
+            n=$(curl -fsS http://localhost:8000/api/ligacoes | python3 -c "import json,sys; print(sum(x['status']=='concluida' for x in json.load(sys.stdin)))")
+            [ "$n" = "6" ] && break
+            sleep 2
+          done
+          echo "$n avaliadas"; [ "$n" = "6" ]
           curl -fsS http://localhost:8000/ | grep -q "Qualidade das ligações"
       - name: Envio pela API e processamento pelo worker
         run: |
